@@ -514,7 +514,197 @@
         }
         #heroCanvas.hidden { opacity: 0; }
         #hero { cursor: default; }
-    </style>
+    
+/* ═══ MELHORIAS WOW — UC LABORATÓRIO DE TECNOLOGIAS EMERGENTES ═══ */
+
+/* Reading Progress Bar */
+#reading-progress {
+  position: fixed; top: 0; left: 0; z-index: 9999;
+  height: 3px; width: 0%; background: linear-gradient(90deg, var(--accent-rose), var(--accent-gold));
+  transition: width 0.1s linear;
+  box-shadow: 0 0 8px rgba(200,160,80,0.6);
+}
+
+/* Custom cursor */
+body { cursor: none !important; }
+#custom-cursor {
+  position: fixed; pointer-events: none; z-index: 99999;
+  width: 20px; height: 20px;
+  border: 1.5px solid var(--accent-gold);
+  border-radius: 50%;
+  transform: translate(-50%,-50%);
+  transition: transform 0.15s ease, width 0.2s, height 0.2s, background 0.2s;
+  mix-blend-mode: difference;
+}
+#custom-cursor.hovering { width: 40px; height: 40px; background: rgba(200,160,80,0.15); }
+#custom-cursor-dot {
+  position: fixed; pointer-events: none; z-index: 99999;
+  width: 5px; height: 5px;
+  background: var(--accent-gold);
+  border-radius: 50%;
+  transform: translate(-50%,-50%);
+}
+a, button, [role="button"], .scroll-indicator, .nav-links a, model-viewer { cursor: none !important; }
+
+/* Immersive mode toggle */
+#immersive-btn {
+  position: fixed; bottom: 2rem; right: 2rem; z-index: 500;
+  background: rgba(13,13,26,0.85); border: 1px solid var(--accent-gold);
+  color: var(--accent-gold); padding: 0.6rem 1.1rem;
+  font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.15em;
+  cursor: none; border-radius: 3px; backdrop-filter: blur(10px);
+  transition: all 0.3s; text-transform: uppercase;
+}
+#immersive-btn:hover { background: var(--accent-gold); color: var(--bg); }
+body.immersive nav { opacity: 0; pointer-events: none; }
+body.immersive #immersive-btn { opacity: 0.3; }
+body.immersive #immersive-btn:hover { opacity: 1; }
+
+/* Censura mode */
+#censura-btn {
+  position: fixed; bottom: 2rem; left: 2rem; z-index: 500;
+  background: rgba(13,13,26,0.85); border: 1px solid var(--accent-rose);
+  color: var(--accent-rose); padding: 0.6rem 1.1rem;
+  font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.15em;
+  cursor: none; border-radius: 3px; backdrop-filter: blur(10px);
+  transition: all 0.3s; text-transform: uppercase;
+}
+#censura-btn:hover { background: var(--accent-rose); color: var(--text); }
+body.censura-mode p, body.censura-mode .chapter-body p, body.censura-mode blockquote {
+  position: relative;
+}
+body.censura-mode .censor-bar {
+  display: inline-block !important;
+}
+.censor-bar {
+  display: none;
+  background: #111;
+  color: transparent;
+  padding: 0 4px;
+  user-select: none;
+  animation: censor-flicker 3s infinite;
+}
+@keyframes censor-flicker {
+  0%,95%,100% { opacity: 1; }
+  96%,99% { opacity: 0.7; }
+  97%,98% { opacity: 0.4; }
+}
+.censor-stamp {
+  display: none;
+  position: absolute; top: -10px; right: 0;
+  font-family: 'Cinzel', serif; font-size: 0.55rem; letter-spacing: 0.2em;
+  color: var(--accent-rose); border: 1px solid var(--accent-rose);
+  padding: 2px 6px; opacity: 0.7; transform: rotate(-2deg);
+  text-transform: uppercase; pointer-events: none;
+}
+body.censura-mode .censor-stamp { display: block; }
+
+/* Glossary floating panel */
+#glossary-panel {
+  position: fixed; right: -340px; top: 50%; transform: translateY(-50%);
+  z-index: 800; width: 320px;
+  background: rgba(7,7,14,0.97); border: 1px solid var(--border);
+  border-right: none; border-radius: 8px 0 0 8px;
+  transition: right 0.4s cubic-bezier(0.4,0,0.2,1);
+  backdrop-filter: blur(20px);
+  max-height: 80vh; overflow: hidden;
+  box-shadow: -4px 0 30px rgba(0,0,0,0.5);
+}
+#glossary-panel.open { right: 0; }
+#glossary-tab {
+  position: absolute; left: -38px; top: 50%; transform: translateY(-50%);
+  background: rgba(7,7,14,0.97); border: 1px solid var(--border);
+  border-right: none; border-radius: 4px 0 0 4px;
+  writing-mode: vertical-rl; text-orientation: mixed;
+  padding: 1rem 0.5rem; cursor: none;
+  font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.2em;
+  color: var(--accent-gold); text-transform: uppercase;
+  transition: background 0.3s;
+}
+#glossary-tab:hover { background: rgba(200,160,80,0.1); }
+#glossary-inner { padding: 1.5rem; overflow-y: auto; max-height: 80vh; }
+#glossary-inner h3 {
+  font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.2em;
+  color: var(--accent-gold); text-transform: uppercase; margin-bottom: 1.2rem;
+  padding-bottom: 0.6rem; border-bottom: 1px solid var(--border);
+}
+.glossary-item { margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
+.glossary-item:last-child { border-bottom: none; }
+.glossary-term {
+  font-family: 'Cinzel', serif; font-size: 0.72rem; color: var(--accent-rose-light);
+  letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.3rem;
+}
+.glossary-def {
+  font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;
+}
+.glossary-ref {
+  font-size: 0.75rem; color: var(--accent-gold); font-style: italic; margin-top: 0.3rem;
+}
+
+/* AI Badge for synthetic images */
+.ai-badge {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  background: rgba(176,77,56,0.15); border: 1px solid rgba(176,77,56,0.4);
+  color: var(--accent-rose-light); font-family: 'Cinzel', serif;
+  font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase;
+  padding: 0.25rem 0.65rem; border-radius: 2px; margin-bottom: 0.8rem;
+  animation: pulse-badge 3s ease-in-out infinite;
+}
+.ai-badge::before {
+  content: '◈'; font-size: 0.7rem; animation: spin-slow 4s linear infinite;
+  display: inline-block;
+}
+@keyframes pulse-badge {
+  0%,100% { opacity: 0.8; box-shadow: 0 0 0px rgba(176,77,56,0); }
+  50% { opacity: 1; box-shadow: 0 0 12px rgba(176,77,56,0.3); }
+}
+@keyframes spin-slow {
+  from { transform: rotate(0deg); } to { transform: rotate(360deg); }
+}
+
+/* Typewriter effect for quotes */
+.typewriter-quote {
+  overflow: hidden; border-right: 2px solid var(--accent-gold);
+  white-space: normal; animation: blink-caret 0.8s step-end infinite;
+}
+@keyframes blink-caret { from,to { border-color: transparent; } 50% { border-color: var(--accent-gold); } }
+
+/* Ocean Wave ambient footer */
+.wave-container {
+  position: relative; overflow: hidden; height: 60px;
+  margin-bottom: -1px;
+}
+.wave-container svg { display: block; }
+
+/* Sticky concept highlight */
+.concept-highlight {
+  background: linear-gradient(90deg, transparent, rgba(176,77,56,0.12), transparent);
+  border-bottom: 1px solid rgba(176,77,56,0.35);
+  padding: 0 2px; cursor: help; transition: background 0.3s;
+  position: relative;
+}
+.concept-highlight:hover { background: linear-gradient(90deg, transparent, rgba(176,77,56,0.25), transparent); }
+.concept-tooltip {
+  position: absolute; bottom: 120%; left: 50%; transform: translateX(-50%);
+  background: rgba(13,13,26,0.97); border: 1px solid var(--border);
+  padding: 0.6rem 0.8rem; border-radius: 4px; width: 220px;
+  font-size: 0.78rem; font-family: 'Crimson Pro', serif; font-style: normal;
+  color: var(--text); z-index: 200; pointer-events: none;
+  opacity: 0; transition: opacity 0.2s;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  text-align: left; line-height: 1.5;
+}
+.concept-highlight:hover .concept-tooltip { opacity: 1; }
+.concept-tooltip strong { color: var(--accent-gold); font-family: 'Cinzel', serif; font-size: 0.68rem; letter-spacing: 0.1em; display: block; margin-bottom: 0.25rem; }
+
+/* Scroll reveal enhanced */
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.9s ease, transform 0.9s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-left { opacity: 0; transform: translateX(-40px); transition: opacity 0.9s ease, transform 0.9s ease; }
+.reveal-left.visible { opacity: 1; transform: translateX(0); }
+.reveal-right { opacity: 0; transform: translateX(40px); transition: opacity 0.9s ease, transform 0.9s ease; }
+.reveal-right.visible { opacity: 1; transform: translateX(0); }
+</style>
 </head>
 <body>
 
@@ -608,7 +798,8 @@
                     <img src="cafe.png" alt="Café literário lisboeta, anos 1950" style="width:100%; height:100%; object-fit:cover; object-position:center; filter:grayscale(30%) sepia(15%) brightness(0.65) contrast(1.1);" />
                 </div>
                 <div class="ai-image-label">
-                    <p class="ai-description">Imagem sintética representativa da via boémia de Natália Correia no café Botequim, em Lisboa.</p>
+                    <span class="ai-badge">Gerado por IA</span>
+                <p class="ai-description">Imagem sintética representativa da via boémia de Natália Correia no café Botequim, em Lisboa.</p>
                 </div>
             </div>
         </div>
@@ -654,7 +845,8 @@
                     <img src="tribunal.png" alt="Tribunal de Lisboa, 1966" style="width:100%; height:100%; object-fit:cover; object-position:center top; filter:grayscale(40%) sepia(10%) brightness(0.6) contrast(1.15);" />
                 </div>
                 <div class="ai-image-label">
-                    <p class="ai-description">Imagem sintética de Natália Correia a entrar no Tribunal de Lisboa.</p>
+                    <span class="ai-badge">Gerado por IA</span>
+                <p class="ai-description">Imagem sintética de Natália Correia a entrar no Tribunal de Lisboa.</p>
                 </div>
             </div>
         </div>
@@ -843,6 +1035,78 @@
 </section>
 
 <!-- FOOTER -->
+
+    <!-- ═══ MELHORIAS WOW UC LTE ═══ -->
+    
+    <!-- Reading Progress Bar -->
+    <div id="reading-progress"></div>
+
+    <!-- Custom Cursor -->
+    <div id="custom-cursor"></div>
+    <div id="custom-cursor-dot"></div>
+
+    <!-- Immersive Mode Button -->
+    <button id="immersive-btn" title="Modo Imersivo">◐ Imersivo</button>
+
+    <!-- Censura Mode Button -->
+    <button id="censura-btn" title="Simulação de Censura do Estado Novo">▓ Censura</button>
+
+    <!-- Glossary Floating Panel -->
+    <div id="glossary-panel">
+      <div id="glossary-tab">Glossário UC</div>
+      <div id="glossary-inner">
+        <h3>Conceitos — Tecnologias Emergentes</h3>
+        
+        <div class="glossary-item">
+          <div class="glossary-term">Imortalidade Digital</div>
+          <div class="glossary-def">Capacidade de preservar a identidade, voz e padrões de pensamento de uma pessoa após a morte através de dados digitais e IA generativa.</div>
+          <div class="glossary-ref">↳ Este projecto</div>
+        </div>
+        
+        <div class="glossary-item">
+          <div class="glossary-term">IA Generativa</div>
+          <div class="glossary-def">Sistemas de inteligência artificial capazes de criar conteúdo original (texto, imagem, áudio) a partir de padrões aprendidos em grandes conjuntos de dados.</div>
+          <div class="glossary-ref">↳ Caps. VII e VIII</div>
+        </div>
+        
+        <div class="glossary-item">
+          <div class="glossary-term">Datafication</div>
+          <div class="glossary-def">Processo de transformar aspectos da vida humana em dados quantificáveis e processáveis por algoritmos (Mayer-Schönberger &amp; Cukier, 2013).</div>
+          <div class="glossary-ref">↳ Cap. VI — Objectos</div>
+        </div>
+        
+        <div class="glossary-item">
+          <div class="glossary-term">Prompt Engineering</div>
+          <div class="glossary-def">Arte e técnica de formular instruções precisas para sistemas de IA generativa de forma a obter resultados específicos e controlados.</div>
+          <div class="glossary-ref">↳ Cap. VIII — Conversa</div>
+        </div>
+        
+        <div class="glossary-item">
+          <div class="glossary-term">Narrativa Transmedia</div>
+          <div class="glossary-def">Estratégia narrativa em que diferentes partes de uma história são distribuídas por múltiplas plataformas, cada uma contribuindo com conteúdo único (Jenkins, 2006).</div>
+          <div class="glossary-ref">↳ Estrutura do site</div>
+        </div>
+        
+        <div class="glossary-item">
+          <div class="glossary-term">Media Imersivos</div>
+          <div class="glossary-def">Tecnologias que criam experiências envolventes capazes de simular presença ou transpor o utilizador para ambientes virtuais ou aumentados.</div>
+          <div class="glossary-ref">↳ Modelo 3D / Juxtapose</div>
+        </div>
+        
+        <div class="glossary-item">
+          <div class="glossary-term">Ética da IA</div>
+          <div class="glossary-def">Campo que examina as implicações morais do desenvolvimento e uso de sistemas de inteligência artificial, incluindo questões de autoria, representação e consentimento.</div>
+          <div class="glossary-ref">↳ Nota Ética — Cap. VIII</div>
+        </div>
+        
+        <div class="glossary-item">
+          <div class="glossary-term">Human-in-the-loop</div>
+          <div class="glossary-def">Modelo de IA que mantém supervisão e intervenção humana no processo de geração ou decisão, garantindo controlo criativo e responsabilidade.</div>
+          <div class="glossary-ref">↳ Autoria dos prompts</div>
+        </div>
+      </div>
+    </div>
+
 <footer>
     <div class="footer-left">
         Natália Correia<br>
@@ -1233,5 +1497,224 @@ Nunca quebres o personagem. Se questionada sobre seres uma IA, responde poeticam
     });
     </script>
 
+
+    <script>
+    /* ═══ MELHORIAS WOW — UC LTE ═══ */
+
+    // 1. READING PROGRESS BAR
+    const progressBar = document.getElementById('reading-progress');
+    function updateProgress() {
+      const scrollTop = window.pageYOffset;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      if (progressBar) progressBar.style.width = progress + '%';
+    }
+    window.addEventListener('scroll', updateProgress, { passive: true });
+
+    // 2. CUSTOM CURSOR
+    const cursor = document.getElementById('custom-cursor');
+    const cursorDot = document.getElementById('custom-cursor-dot');
+    let mouseX = 0, mouseY = 0, dotX = 0, dotY = 0;
+    document.addEventListener('mousemove', e => {
+      mouseX = e.clientX; mouseY = e.clientY;
+      if (cursor) { cursor.style.left = mouseX + 'px'; cursor.style.top = mouseY + 'px'; }
+      if (cursorDot) { cursorDot.style.left = mouseX + 'px'; cursorDot.style.top = mouseY + 'px'; }
+    });
+    document.querySelectorAll('a, button, [role="button"], model-viewer, .scroll-indicator, .glossary-item, .timeline-event').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor && cursor.classList.add('hovering'));
+      el.addEventListener('mouseleave', () => cursor && cursor.classList.remove('hovering'));
+    });
+
+    // 3. IMMERSIVE MODE
+    const immersiveBtn = document.getElementById('immersive-btn');
+    if (immersiveBtn) {
+      immersiveBtn.addEventListener('click', () => {
+        document.body.classList.toggle('immersive');
+        immersiveBtn.textContent = document.body.classList.contains('immersive') ? '◑ Normal' : '◐ Imersivo';
+      });
+    }
+
+    // 4. CENSURA MODE — simulates Estado Novo censorship
+    const censuraBtn = document.getElementById('censura-btn');
+    const FORBIDDEN_WORDS = ['liberdade', 'resistência', 'censura', 'revolução', 'proibido', 'erótica', 'satírica', 'PIDE', 'absolvida', 'tribunal', 'julgamento', 'democracia', 'república'];
+    
+    function applyCensura() {
+      document.querySelectorAll('.chapter-body p, .chapter-body blockquote, .poem-display p').forEach(el => {
+        if (el.dataset.originalText) return; // already processed
+        const original = el.innerHTML;
+        el.dataset.originalText = original;
+        let censored = original;
+        FORBIDDEN_WORDS.forEach(word => {
+          const rx = new RegExp('(' + word + ')', 'gi');
+          censored = censored.replace(rx, '<span class="censor-bar">$1</span>');
+        });
+        if (censored !== original) {
+          el.innerHTML = censored + '<span class="censor-stamp">CENSURADO</span>';
+        }
+      });
+    }
+    
+    function removeCensura() {
+      document.querySelectorAll('[data-original-text]').forEach(el => {
+        el.innerHTML = el.dataset.originalText;
+        delete el.dataset.originalText;
+      });
+    }
+    
+    if (censuraBtn) {
+      censuraBtn.addEventListener('click', () => {
+        document.body.classList.toggle('censura-mode');
+        if (document.body.classList.contains('censura-mode')) {
+          applyCensura();
+          censuraBtn.textContent = '▓ Descensurar';
+          censuraBtn.title = 'Restaurar texto original';
+        } else {
+          removeCensura();
+          censuraBtn.textContent = '▓ Censura';
+          censuraBtn.title = 'Simulação de Censura do Estado Novo';
+        }
+      });
+    }
+
+    // 5. GLOSSARY FLOATING PANEL
+    const glossaryPanel = document.getElementById('glossary-panel');
+    const glossaryTab = document.getElementById('glossary-tab');
+    if (glossaryTab && glossaryPanel) {
+      glossaryTab.addEventListener('click', () => {
+        glossaryPanel.classList.toggle('open');
+        glossaryTab.textContent = glossaryPanel.classList.contains('open') ? '✕ Fechar' : 'Glossário UC';
+        glossaryTab.style.writingMode = glossaryPanel.classList.contains('open') ? 'horizontal-tb' : 'vertical-rl';
+        glossaryTab.style.padding = glossaryPanel.classList.contains('open') ? '0.5rem 0.7rem' : '1rem 0.5rem';
+      });
+    }
+
+    // 6. CONCEPT HIGHLIGHTS — wrap key terms in text with tooltips
+    const CONCEPTS = {
+      'imortalidade digital': { title: 'Imortalidade Digital', def: 'Preservação da identidade e pensamento de uma pessoa através de IA e dados.' },
+      'datafication': { title: 'Datafication', def: 'Transformação de objectos e experiências físicas em dados processáveis.' },
+      'inteligência artificial': { title: 'IA Generativa', def: 'Sistemas que criam conteúdo original a partir de padrões aprendidos.' },
+      'prompt': { title: 'Prompt Engineering', def: 'Arte de formular instruções precisas para sistemas de IA.' },
+      'algoritmo': { title: 'Algoritmo', def: 'Conjunto de instruções que definem o comportamento de sistemas computacionais.' },
+    };
+    
+    function wrapConcepts() {
+      const textNodes = [];
+      const walker = document.createTreeWalker(
+        document.querySelector('main') || document.body,
+        NodeFilter.SHOW_TEXT,
+        { acceptNode: n => {
+          if (n.parentElement && ['SCRIPT','STYLE','CODE','PRE','H1','H2','H3','TITLE'].includes(n.parentElement.tagName)) return NodeFilter.FILTER_REJECT;
+          if (n.parentElement && n.parentElement.closest('#glossary-panel')) return NodeFilter.FILTER_REJECT;
+          if (n.parentElement && n.parentElement.classList.contains('concept-highlight')) return NodeFilter.FILTER_REJECT;
+          return n.textContent.trim() ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+        }}
+      );
+      let node;
+      while ((node = walker.nextNode())) textNodes.push(node);
+      
+      textNodes.forEach(node => {
+        let text = node.textContent;
+        let changed = false;
+        let html = text;
+        for (const [term, data] of Object.entries(CONCEPTS)) {
+          const rx = new RegExp('(?<![\w>])(' + term + ')(?![\w<])', 'i');
+          if (rx.test(html)) {
+            html = html.replace(rx, '<span class="concept-highlight">$1<span class="concept-tooltip"><strong>' + data.title + '</strong>' + data.def + '</span></span>');
+            changed = true;
+            break; // only wrap first match per node to avoid complexity
+          }
+        }
+        if (changed) {
+          const span = document.createElement('span');
+          span.innerHTML = html;
+          node.parentNode.replaceChild(span, node);
+        }
+      });
+    }
+    
+    // Run concept wrapping after page is ready
+    setTimeout(wrapConcepts, 1500);
+
+    // 7. AI BADGE — add to synthetic image captions
+    document.querySelectorAll('figure, .image-caption, .chapter-body p').forEach(el => {
+      const text = el.textContent.toLowerCase();
+      if (text.includes('imagem sint') || text.includes('ia generativa') || text.includes('synthetic')) {
+        if (!el.querySelector('.ai-badge')) {
+          const badge = document.createElement('span');
+          badge.className = 'ai-badge';
+          badge.textContent = 'Gerado por IA';
+          el.insertBefore(badge, el.firstChild);
+        }
+      }
+    });
+
+    // 8. TYPEWRITER EFFECT for hero tagline
+    function typewriterEffect(el, text, speed = 40) {
+      el.textContent = '';
+      let i = 0;
+      const interval = setInterval(() => {
+        if (i < text.length) { el.textContent += text[i]; i++; }
+        else clearInterval(interval);
+      }, speed);
+    }
+    
+    // Apply to hero tagline after initial animation
+    setTimeout(() => {
+      const tagline = document.querySelector('.hero-tagline');
+      if (tagline) {
+        const originalText = tagline.textContent;
+        tagline.classList.add('typewriter-quote');
+        typewriterEffect(tagline, originalText, 35);
+        setTimeout(() => tagline.classList.remove('typewriter-quote'), originalText.length * 35 + 500);
+      }
+    }, 2000);
+
+    // 9. ENHANCED REVEAL — add reveal-left / reveal-right to alternating elements
+    document.querySelectorAll('.chapter-number').forEach(el => {
+      if (!el.classList.contains('reveal')) el.classList.add('reveal-left');
+    });
+    document.querySelectorAll('.chapter-label, .chapter-eyebrow').forEach((el, i) => {
+      if (!el.classList.contains('reveal')) el.classList.add(i % 2 === 0 ? 'reveal-left' : 'reveal-right');
+    });
+    
+    // Re-run IntersectionObserver for new reveal classes
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    
+    document.querySelectorAll('.reveal-left, .reveal-right').forEach(el => revealObserver.observe(el));
+
+    // 10. KEYBOARD SHORTCUTS
+    document.addEventListener('keydown', e => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      if (e.key === 'i' || e.key === 'I') immersiveBtn && immersiveBtn.click();
+      if (e.key === 'g' || e.key === 'G') glossaryTab && glossaryTab.click();
+    });
+
+    // 11. WAVE AMBIENT at section transitions
+    // Add subtle parallax to hero background
+    const heroBg = document.querySelector('.hero-bg');
+    if (heroBg) {
+      window.addEventListener('scroll', () => {
+        const scrollY = window.pageYOffset;
+        heroBg.style.transform = 'translateY(' + (scrollY * 0.3) + 'px)';
+      }, { passive: true });
+    }
+    
+    // 12. FLOATING LETTERS PARALLAX in hero
+    document.querySelectorAll('.floating-letter').forEach((letter, i) => {
+      const speed = 0.05 + (i % 5) * 0.02;
+      window.addEventListener('scroll', () => {
+        const scrollY = window.pageYOffset;
+        letter.style.transform = 'translateY(' + (scrollY * speed) + 'px)';
+      }, { passive: true });
+    });
+    
+    </script>
 </body>
 </html>
