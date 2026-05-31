@@ -601,7 +601,7 @@ body.censura-mode .censor-stamp { display: block; }
 
 /* Glossary floating panel */
 #glossary-panel {
-  position: fixed; right: -340px; top: 50%; transform: translateY(-50%);
+  position: fixed; right: -320px; top: 50%; transform: translateY(-50%);
   z-index: 800; width: 320px;
   background: rgba(7,7,14,0.97); border: 1px solid var(--border);
   border-right: none; border-radius: 8px 0 0 8px;
@@ -611,6 +611,7 @@ body.censura-mode .censor-stamp { display: block; }
   box-shadow: -4px 0 30px rgba(0,0,0,0.5);
 }
 #glossary-panel.open { right: 0; }
+#glossary-panel.open #glossary-tab { right: 320px; }
 #glossary-tab {
   position: absolute; left: -44px; top: 50%; transform: translateY(-50%);
   background: rgba(7,7,14,0.97); border: 1px solid var(--border);
