@@ -607,12 +607,12 @@ body.censura-mode .censor-stamp { display: block; }
   border-right: none; border-radius: 8px 0 0 8px;
   transition: right 0.4s cubic-bezier(0.4,0,0.2,1);
   backdrop-filter: blur(20px);
-  max-height: 80vh; overflow: hidden;
+  overflow: visible;
   box-shadow: -4px 0 30px rgba(0,0,0,0.5);
 }
 #glossary-panel.open { right: 0; }
 #glossary-tab {
-  position: absolute; left: -38px; top: 50%; transform: translateY(-50%);
+  position: absolute; left: -44px; top: 50%; transform: translateY(-50%);
   background: rgba(7,7,14,0.97); border: 1px solid var(--border);
   border-right: none; border-radius: 4px 0 0 4px;
   writing-mode: vertical-rl; text-orientation: mixed;
@@ -704,6 +704,28 @@ body.censura-mode .censor-stamp { display: block; }
 .reveal-left.visible { opacity: 1; transform: translateX(0); }
 .reveal-right { opacity: 0; transform: translateX(40px); transition: opacity 0.9s ease, transform 0.9s ease; }
 .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+/* ── CENSURA IMAGE OVERLAY ── */
+.ai-image-bg { position: relative; overflow: hidden; }
+.censura-img-overlay {
+  display: none;
+  position: absolute; inset: 0; z-index: 10;
+  background: rgba(0,0,0,0.55);
+  align-items: center; justify-content: center;
+  pointer-events: none;
+}
+body.censura-mode .censura-img-overlay { display: flex; }
+.censura-visado-stamp {
+  width: min(220px, 70%);
+  opacity: 0.92;
+  animation: stamp-appear 0.4s cubic-bezier(0.22,1,0.36,1) forwards;
+  transform: rotate(-8deg);
+  filter: drop-shadow(0 2px 12px rgba(200,0,0,0.5));
+}
+@keyframes stamp-appear {
+  from { opacity: 0; transform: rotate(-8deg) scale(1.5); }
+  to   { opacity: 0.92; transform: rotate(-8deg) scale(1); }
+}
 </style>
 </head>
 <body>
@@ -796,6 +818,28 @@ body.censura-mode .censor-stamp { display: block; }
             <div class="ai-image reveal reveal-delay-2">
                 <div class="ai-image-bg">
                     <img src="cafe.png" alt="Café literário lisboeta, anos 1950" style="width:100%; height:100%; object-fit:cover; object-position:center; filter:grayscale(30%) sepia(15%) brightness(0.65) contrast(1.1);" />
+                    <div class="censura-img-overlay">
+                      <svg class="censura-visado-stamp" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Outer circle -->
+                        <circle cx="110" cy="110" r="100" fill="none" stroke="#cc1111" stroke-width="5"/>
+                        <circle cx="110" cy="110" r="92" fill="none" stroke="#cc1111" stroke-width="2"/>
+                        <!-- Diagonal lines -->
+                        <line x1="25" y1="155" x2="195" y2="65" stroke="#cc1111" stroke-width="4"/>
+                        <!-- Top arc text: SERVIÇOS DE CENSURA -->
+                        <path id="topArc" d="M 25,110 A 85,85 0 0,1 195,110" fill="none"/>
+                        <text font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#cc1111" letter-spacing="2">
+                          <textPath href="#topArc" startOffset="5%">SERVIÇOS DE CENSURA</textPath>
+                        </text>
+                        <!-- VISADO text in center -->
+                        <rect x="42" y="88" width="136" height="44" fill="none" stroke="#cc1111" stroke-width="3"/>
+                        <text x="110" y="118" font-family="Arial,sans-serif" font-size="28" font-weight="900" fill="#cc1111" text-anchor="middle" letter-spacing="3">VISADO</text>
+                        <!-- Bottom arc text: COMISSÃO DE LISBOA -->
+                        <path id="botArc" d="M 25,110 A 85,85 0 0,0 195,110" fill="none"/>
+                        <text font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#cc1111" letter-spacing="2">
+                          <textPath href="#botArc" startOffset="8%">COMISSÃO DE LISBOA</textPath>
+                        </text>
+                      </svg>
+                    </div>
                 </div>
                 <div class="ai-image-label">
                     <span class="ai-badge">Gerado por IA</span>
@@ -843,6 +887,28 @@ body.censura-mode .censor-stamp { display: block; }
             <div class="ai-image reveal reveal-delay-2">
                 <div class="ai-image-bg">
                     <img src="tribunal.png" alt="Tribunal de Lisboa, 1966" style="width:100%; height:100%; object-fit:cover; object-position:center top; filter:grayscale(40%) sepia(10%) brightness(0.6) contrast(1.15);" />
+                    <div class="censura-img-overlay">
+                      <svg class="censura-visado-stamp" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Outer circle -->
+                        <circle cx="110" cy="110" r="100" fill="none" stroke="#cc1111" stroke-width="5"/>
+                        <circle cx="110" cy="110" r="92" fill="none" stroke="#cc1111" stroke-width="2"/>
+                        <!-- Diagonal lines -->
+                        <line x1="25" y1="155" x2="195" y2="65" stroke="#cc1111" stroke-width="4"/>
+                        <!-- Top arc text: SERVIÇOS DE CENSURA -->
+                        <path id="topArc" d="M 25,110 A 85,85 0 0,1 195,110" fill="none"/>
+                        <text font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#cc1111" letter-spacing="2">
+                          <textPath href="#topArc" startOffset="5%">SERVIÇOS DE CENSURA</textPath>
+                        </text>
+                        <!-- VISADO text in center -->
+                        <rect x="42" y="88" width="136" height="44" fill="none" stroke="#cc1111" stroke-width="3"/>
+                        <text x="110" y="118" font-family="Arial,sans-serif" font-size="28" font-weight="900" fill="#cc1111" text-anchor="middle" letter-spacing="3">VISADO</text>
+                        <!-- Bottom arc text: COMISSÃO DE LISBOA -->
+                        <path id="botArc" d="M 25,110 A 85,85 0 0,0 195,110" fill="none"/>
+                        <text font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#cc1111" letter-spacing="2">
+                          <textPath href="#botArc" startOffset="8%">COMISSÃO DE LISBOA</textPath>
+                        </text>
+                      </svg>
+                    </div>
                 </div>
                 <div class="ai-image-label">
                     <span class="ai-badge">Gerado por IA</span>
@@ -1582,9 +1648,7 @@ Nunca quebres o personagem. Se questionada sobre seres uma IA, responde poeticam
     if (glossaryTab && glossaryPanel) {
       glossaryTab.addEventListener('click', () => {
         glossaryPanel.classList.toggle('open');
-        glossaryTab.textContent = glossaryPanel.classList.contains('open') ? '✕ Fechar' : 'Glossário UC';
-        glossaryTab.style.writingMode = glossaryPanel.classList.contains('open') ? 'horizontal-tb' : 'vertical-rl';
-        glossaryTab.style.padding = glossaryPanel.classList.contains('open') ? '0.5rem 0.7rem' : '1rem 0.5rem';
+        glossaryTab.textContent = glossaryPanel.classList.contains('open') ? '✕' : 'Glossário UC';
       });
     }
 
