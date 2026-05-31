@@ -1539,7 +1539,7 @@ Nunca quebres o personagem. Se questionada sobre seres uma IA, responde poeticam
     const FORBIDDEN_WORDS = ['liberdade', 'resistência', 'censura', 'revolução', 'proibido', 'erótica', 'satírica', 'PIDE', 'absolvida', 'tribunal', 'julgamento', 'democracia', 'república'];
     
     function applyCensura() {
-      document.querySelectorAll('.chapter-body p, .chapter-body blockquote, .poem-display p').forEach(el => {
+      document.querySelectorAll('section p:not(nav p):not(footer p), section blockquote').forEach(el => {
         if (el.dataset.originalText) return; // already processed
         const original = el.innerHTML;
         el.dataset.originalText = original;
