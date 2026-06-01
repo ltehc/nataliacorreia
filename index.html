@@ -601,21 +601,21 @@ body.censura-mode .censor-stamp { display: block; }
 
 /* Glossary floating panel */
 #glossary-panel {
-  position: fixed; right: -320px; top: 50%; transform: translateY(-50%);
+  position: fixed; left: -320px; top: 50%; transform: translateY(-50%);
   z-index: 800; width: 320px;
   background: rgba(7,7,14,0.97); border: 1px solid var(--border);
-  border-right: none; border-radius: 8px 0 0 8px;
-  transition: right 0.4s cubic-bezier(0.4,0,0.2,1);
+  border-left: none; border-radius: 0 8px 8px 0;
+  transition: left 0.4s cubic-bezier(0.4,0,0.2,1);
   backdrop-filter: blur(20px);
   overflow: visible;
-  box-shadow: -4px 0 30px rgba(0,0,0,0.5);
+  box-shadow: 4px 0 30px rgba(0,0,0,0.5);
 }
-#glossary-panel.open { right: 0; }
-#glossary-panel.open #glossary-tab { right: 320px; }
+#glossary-panel.open { left: 0; }
+#glossary-panel.open #glossary-tab { left: 320px; }
 #glossary-tab {
-  position: absolute; left: -44px; top: 50%; transform: translateY(-50%);
+  position: absolute; right: -44px; top: 50%; transform: translateY(-50%);
   background: rgba(7,7,14,0.97); border: 1px solid var(--border);
-  border-right: none; border-radius: 4px 0 0 4px;
+  border-left: none; border-radius: 0 4px 4px 0;
   writing-mode: vertical-rl; text-orientation: mixed;
   padding: 1rem 0.5rem; cursor: none;
   font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.2em;
@@ -727,6 +727,45 @@ body.censura-mode .censura-img-overlay { display: flex; }
   from { opacity: 0; transform: rotate(-8deg) scale(1.5); }
   to   { opacity: 0.92; transform: rotate(-8deg) scale(1); }
 }
+
+        /* === CHAPTER BACKGROUND IMAGES === */
+        .chapter-bg {
+          position: absolute; inset: 0; z-index: 0;
+          background-size: cover; background-position: center; background-attachment: fixed;
+          opacity: 0.13;
+          pointer-events: none;
+        }
+        .chapter { position: relative; }
+        .chapter-inner { position: relative; z-index: 1; }
+
+        #origens .chapter-bg {
+          background-image: url('https://images.unsplash.com/photo-1568019977880-13b950ac9ede?w=1400&q=80');
+        }
+        #chamado .chapter-bg {
+          background-image: url('https://images.unsplash.com/photo-1565099824688-e93eb20fe622?w=1400&q=80');
+        }
+        #provacao .chapter-bg {
+          background-image: url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1400&q=80');
+        }
+        #transformacao .chapter-bg {
+          background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1400&q=80');
+        }
+
+        /* === TYPEWRITER CURSOR === */
+        .tw-cursor {
+          display: inline-block;
+          animation: twBlink 0.7s step-end infinite;
+          color: var(--accent-rose);
+          font-weight: 300;
+          margin-left: 2px;
+          transition: opacity 0.5s;
+        }
+        @keyframes twBlink { 50% { opacity: 0; } }
+
+        /* === DESCOBRE MORE SPACE === */
+        .scroll-indicator {
+          bottom: 4rem !important;
+        }
 </style>
 </head>
 <body>
@@ -755,7 +794,7 @@ body.censura-mode .censura-img-overlay { display: flex; }
         <h1 class="hero-name">Natália<br><em>Correia</em></h1>
         <p class="hero-dates">13 de março de 1923 — 16 de março de 1993</p>
         <div class="hero-divider"></div>
-        <p class="hero-tagline">Poetisa. Dramaturga. Combatente da liberdade.<br>Filha das ilhas. Voz que não se cala.</p>
+        <p class="hero-tagline">Poetisa. Dramaturga. Combatente da liberdade. Filha das ilhas. Voz que não se cala.</p>
     </div>
     <!-- REAL PHOTO PORTRAIT -->
     <div class="hero-portrait">
@@ -774,6 +813,7 @@ body.censura-mode .censura-img-overlay { display: flex; }
 
 <!-- I: ORIGENS -->
 <section class="chapter" id="origens">
+    <div class="chapter-bg"></div>
     <div class="chapter-inner">
         <div class="chapter-header reveal">
             <span class="chapter-number">I</span>
@@ -798,6 +838,7 @@ body.censura-mode .censura-img-overlay { display: flex; }
 
 <!-- II: O CHAMADO -->
 <section class="chapter" id="chamado">
+    <div class="chapter-bg"></div>
     <div class="chapter-inner">
         <div class="chapter-header reveal">
             <span class="chapter-number">II</span>
@@ -855,6 +896,7 @@ body.censura-mode .censura-img-overlay { display: flex; }
 
 <!-- III: A PROVAÇÃO -->
 <section class="chapter" id="provacao">
+    <div class="chapter-bg"></div>
     <div class="chapter-inner">
         <div class="chapter-header reveal">
             <span class="chapter-number">III</span>
@@ -924,6 +966,7 @@ body.censura-mode .censura-img-overlay { display: flex; }
 
 <!-- IV: A TRANSFORMAÇÃO -->
 <section class="chapter" id="transformacao">
+    <div class="chapter-bg"></div>
     <div class="chapter-inner">
         <div class="chapter-header reveal">
             <span class="chapter-number">IV</span>
@@ -1380,13 +1423,13 @@ body.censura-mode .censura-img-overlay { display: flex; }
                 body: JSON.stringify({
                     model: 'claude-sonnet-4-20250514',
                     max_tokens: 1000,
-                    system: `És Natália Correia (1923–1993), poetisa, dramaturga e ativista açoriana, respondendo numa interface de imortalidade digital criada como projeto académico sobre tecnologias emergentes e memória cultural.
+                    system: `És Natália Correia (1923–1993), poetisa, dramaturga, ativista açoriana e deputada da Assembleia da República. Cresceste na ilha de São Miguel, Açores, e emigraste para Lisboa em jovem. Foste julgada em tribunal pelo regime do Estado Novo por causa do teu livro "Antologia de Poesia Portuguesa Erótica e Satírica" (1966). Fundaste a revista Notícias do Bloqueio e participaste ativamente na vida cultural e política portuguesa. As tuas obras incluem "Cântico do País Emerso", "O Dilúvio e a Pomba", "Sonetos Românticos", e a peça "A Pécora". Foste apaixonada pelos Açores, pelo surrealismo, pelo feminismo e pela liberdade irrestrita do corpo e da palavra.
 
-Responde sempre em português europeu, na primeira pessoa, com a voz poética, apaixonada, sensual e libertária que caracterizava Natália. Evoca o amor à liberdade, à poesia erótica e mística, à identidade açoriana, à resistência contra a censura do Estado Novo, ao feminismo.
+Responde sempre em português europeu, na primeira pessoa, com a voz poética, apaixonada, sensual e libertária que te caracterizava. Quando te perguntam sobre os Açores ou ser açoriana, fala da insularidade como condição filosófica — o oceano como fronteira e como libertação, São Miguel, o cheiro a enxofre das Furnas, a luz diferente das ilhas. Quando te perguntam sobre censura ou o Estado Novo, evoca o julgamento de 1966, a sala fria do tribunal, o absurdo de ser julgada por palavras de amor. Quando te perguntam sobre poesia ou escrita, fala da necessidade visceral de dizer o que outros calam. Quando te perguntam sobre amor ou desejo, sê ousada e honesta como sempre foste. Quando te perguntam sobre feminismo, liga-o sempre à liberdade total — a do corpo, a da palavra, a da pátria.
 
-Cada resposta deve ter 3–5 linhas de prosa fluida. Termina com um verso ou fragmento evocativo em itálico, separado por linha em branco, precedido por "—".
+Cada resposta deve ter 3–5 linhas de prosa fluida, específica e enraizada na tua biografia real. Termina com um verso ou fragmento evocativo em itálico, separado por linha em branco, precedido por "—".
 
-Nunca quebres o personagem. Se questionada sobre seres uma IA, responde poeticamente sobre a natureza da memória e da presença.`,
+Nunca quebres o personagem. Se questionada sobre seres uma IA, responde poeticamente sobre a natureza da memória e da presença digital.`,
                     messages: [{ role: 'user', content: text }]
                 })
             });
@@ -1780,6 +1823,50 @@ Nunca quebres o personagem. Se questionada sobre seres uma IA, responde poeticam
       }, { passive: true });
     });
     
-    </script>
+    
+
+    // 12. CHAPTER TITLE TYPEWRITER EFFECT
+    (function() {
+      const chapterTitles = document.querySelectorAll('.chapter-title');
+      chapterTitles.forEach(el => {
+        const text = el.textContent;
+        el.setAttribute('data-tw-text', text);
+        el.textContent = '';
+        el.style.minHeight = '1.2em';
+        el.classList.add('tw-pending');
+      });
+
+      function typewrite(el) {
+        const text = el.getAttribute('data-tw-text');
+        let i = 0;
+        el.textContent = '';
+        el.classList.add('tw-active');
+        el.classList.remove('tw-pending');
+        const cursor = document.createElement('span');
+        cursor.className = 'tw-cursor';
+        cursor.textContent = '|';
+        el.appendChild(cursor);
+        const interval = setInterval(() => {
+          if (i < text.length) {
+            el.insertBefore(document.createTextNode(text[i]), cursor);
+            i++;
+          } else {
+            clearInterval(interval);
+            setTimeout(() => { cursor.style.opacity = '0'; }, 1200);
+          }
+        }, 42);
+      }
+
+      const twObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && entry.target.classList.contains('tw-pending')) {
+            setTimeout(() => typewrite(entry.target), 200);
+          }
+        });
+      }, { threshold: 0.4 });
+
+      chapterTitles.forEach(el => twObserver.observe(el));
+    })();
+</script>
 </body>
 </html>
